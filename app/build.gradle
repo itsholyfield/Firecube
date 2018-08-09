@@ -1,0 +1,83 @@
+apply plugin: 'com.android.application'
+apply plugin: 'io.fabric'
+
+android {
+    compileSdkVersion rootProject.compileSdkVersion
+    buildToolsVersion rootProject.buildToolsVersion
+
+    defaultConfig {
+        applicationId "dang.firecube"
+        minSdkVersion rootProject.minSdkVersion
+        targetSdkVersion rootProject.targetSdkVersion
+        versionCode 19
+        versionName "0.5a"
+        //renderscript support mode is not supported for 21+ with gradle version 2.0
+        renderscriptTargetApi 20
+        renderscriptSupportModeEnabled true
+        resValue "string", "fabric_api_key", "2e2852b4be9cdd8073dba1e6f47ded409f7487b5"
+        resValue "string", "play_billing_license_key", "REPLACE ME"
+        multiDexEnabled true
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            manifestPlaceholders = [ appNameSuffix:""]
+
+        }
+        debug {
+            ext.enableCrashlytics = false
+            versionNameSuffix "-debug"
+            minifyEnabled false
+            applicationIdSuffix '.dev'
+            manifestPlaceholders = [ appNameSuffix:" Dev"]
+
+            resValue "string", "fabric_api_key", "2e2852b4be9cdd8073dba1e6f47ded409f7487b5"
+            resValue "string", "play_billing_license_key", "12345"
+
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    lintOptions {
+        disable 'MissingTranslation'
+        disable 'ExtraTranslation'
+    }
+
+}
+
+repositories {
+    jcenter()
+    maven { url 'https://maven.fabric.io/public' }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "com.android.support:appcompat-v7:$rootProject.supportLibraryVersion"
+    implementation "com.android.support:design:$rootProject.supportLibraryVersion"
+    implementation "com.android.support:cardview-v7:$rootProject.supportLibraryVersion"
+    implementation "com.android.support:recyclerview-v7:$rootProject.supportLibraryVersion"
+    implementation "com.android.support:palette-v7:$rootProject.supportLibraryVersion"
+    implementation "com.android.support:percent:$rootProject.supportLibraryVersion"
+
+    implementation 'com.nostra13.universalimageloader:universal-image-loader:1.9.4'
+    implementation 'net.steamcrafted:materialiconlib:1.0.3'
+    implementation 'com.squareup.retrofit:retrofit:1.9.0'
+    implementation 'com.squareup.okhttp:okhttp-urlconnection:2.3.0'
+    implementation 'com.squareup.okhttp:okhttp:2.3.0'
+    implementation 'com.google.code.gson:gson:2.3'
+    implementation 'de.Maxr1998:track-selector-lib:1.2'
+
+    implementation 'com.afollestad.material-dialogs:core:0.9.0.2'
+    implementation 'com.afollestad.material-dialogs:commons:0.9.0.2'
+
+    implementation('com.github.naman14:app-theme-engine:0.5.2@aar') {
+        transitive = true
+    }
+    implementation('com.crashlytics.sdk.android:crashlytics:2.6.5@aar') {
+        transitive = true;
+    }
+    implementation 'com.anjlab.android.iab.v3:library:1.0.+'
+
+
+}
